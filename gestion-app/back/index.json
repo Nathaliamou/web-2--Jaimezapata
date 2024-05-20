@@ -1,0 +1,45 @@
+{
+  "user": [
+    {
+      "user": "admin",
+      "contrasena": "1234",
+      "id": "1cd3"
+    },
+    {
+      "user": "jaime",
+      "contrasena": "1234",
+      "id": "24ef"
+    },
+    {
+      "id": "7ebd",
+      "user": "admin-dos",
+      "contrasena": "1234",
+      "correo": "correo@correo.com"
+    },
+    {
+      "id": "de9a",
+      "user": "admin",
+      "contrasena": "",
+      "correo": ""
+    },
+    {
+      "id": "7413",
+      "user": "super-admin",
+      "contrasena": "1234",
+      "correo": "correo@correo.com"
+    },
+    {
+      "id": "957d",
+      "user": "",
+      "contrasena": "",
+      "correo": ""
+    },
+    {
+      "id": "21b5",
+      "user": "wertw",
+      "contrasena": "",
+      "correo": ""
+    }
+  ],
+  "productos": []
+}

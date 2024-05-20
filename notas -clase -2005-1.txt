@@ -1,0 +1,159 @@
+
+Resumen de Clase del 20 de Mayo, 2024
+Tema: Implementación de Acciones CRUD para Usuarios en React
+Contenido de la Clase
+Revisión de Verbos HTTP
+
+GET: Registro y Login
+POST: Registro
+Código JSX y CSS Utilizado
+
+jsx
+Copiar código
+import { useState, useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import axios from "axios";
+import Swal from "sweetalert2";
+import "./Login.css";
+
+let urlUsuarios = "http://localhost:3000/user";
+
+const Login = () => {
+  const [getUsuario, setUsuario] = useState("");
+  const [getContrasena, setContrasena] = useState("");
+  const [usuarios, setUsuarios] = useState([]);
+  const redireccion = useNavigate();
+
+  async function getUsuarios() {
+    let resultado = await axios.get(urlUsuarios);
+    console.log(resultado.data);
+    setUsuarios(resultado.data);
+  }
+
+  function validarInicioSesion() {
+    if (buscarUsuario()) {
+      Swal.fire({
+        title: "Bienvenido...",
+        text: "Acceso al sistema, será redireccionado",
+        icon: "success",
+      });
+      redireccion("/home");
+    } else {
+      Swal.fire({
+        title: "Error",
+        text: "Usuario y/o contraseña incorrecto",
+        icon: "error",
+      });
+    }
+  }
+}
+Métodos Utilizados
+
+GET: Para obtener usuarios de la base de datos.
+POST: Para registrar usuarios en la base de datos.
+DELETE: Para eliminar usuarios de la base de datos.
+Estructuras Usadas
+
+useState y useEffect de React para manejar el estado y efectos secundarios.
+axios para realizar peticiones HTTP.
+Swal de SweetAlert2 para notificaciones.
+Páginas Visitadas
+
+Implementación de Login y Home con integración de API.
+Uso de axios para manejar peticiones.
+Funcionalidad de los Puntos Más Importantes
+Validación de Inicio de Sesión
+
+Se utiliza axios para obtener los usuarios de la API.
+Se implementa una función validarInicioSesion para validar las credenciales ingresadas.
+Home Component: Listar Usuarios
+
+Se define una función getUsuarios para obtener y listar los usuarios.
+Se usa useEffect para realizar la petición de usuarios al cargar el componente.
+jsx
+Copiar código
+const Home = () => {
+  const [usuarios, setUsuarios] = useState([]);
+
+  const getUsuarios = async () => {
+    let data = await axios.get(urlUsuarios);
+    setUsuarios(data.data);
+  };
+
+  useEffect(() => {
+    getUsuarios();
+  }, []);
+
+  return (
+    <div>
+      <Header />
+      <section>
+        {usuarios.map((usuario) => (
+          <section key={usuario.id}>
+            <p>Usuario: {usuario.user}</p>
+            <input value={usuario.contrasena} type="password" />
+            <p>ID: {usuario.id}</p>
+            <section>
+              <button>Editar</button>
+              <button onClick={() => eliminarUsuario(usuario.id, usuario.user)}>Eliminar</button>
+            </section>
+          </section>
+        ))}
+      </section>
+    </div>
+  );
+};
+
+export default Home;
+Eliminar Usuario
+
+Se implementa la función eliminarUsuario que usa Swal para confirmar la eliminación.
+La función confirmar realiza la petición DELETE a la API.
+jsx
+Copiar código
+async function confirmar(id) {
+  await axios.delete(urlUsuarios + "/" + id);
+  getUsuarios();
+}
+
+function eliminarUsuario(id, user) {
+  Swal.fire({
+    title: "¿Estás seguro?",
+    text: "No se puede revertir esta acción!",
+    icon: "warning",
+    showCancelButton: true,
+    confirmButtonColor: "#3085d6",
+    cancelButtonColor: "#d33",
+    confirmButtonText: "Sí, eliminar!"
+  }).then((result) => {
+    if (result.isConfirmed) {
+      confirmar(id);
+      Swal.fire(
+        "Eliminado!",
+        "El usuario se eliminó correctamente.",
+        "success"
+      );
+    }
+  });
+}
+CRUD Completo
+
+Además de los métodos GET, POST, y DELETE, se mencionó la futura implementación de PUT/PATCH para actualizar usuarios.
+Métodos y Estructuras Importantes
+useState y useEffect
+
+useState para manejar el estado de los usuarios.
+useEffect para realizar acciones al montar el componente.
+axios
+
+Para realizar peticiones HTTP a la API.
+SweetAlert2 (Swal)
+
+Para mostrar alertas y confirmaciones al usuario.
+Próximas Clases y Entregables
+27 de Mayo: Continuación con DELETE, UPDATE/PATCH.
+03 y 10 de Junio: Festivos.
+08 de Junio: Revisión de GET y POST.
+15 de Junio: Implementación del CRUD completo.
+17 de Junio: Entrega del proyecto integrador.
+17-21 de Junio: Nivelaciones.
